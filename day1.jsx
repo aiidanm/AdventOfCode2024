@@ -186,7 +186,6 @@ inputdata = [
 function split(input) {
   const secondColumn = [];
   const firstcolumn = [];
-  let totalDifference = 0
 
 
   for (let i = 0; i < input.length; i++) {
@@ -200,11 +199,47 @@ function split(input) {
   firstcolumn.sort(function(a, b){return a-b});
   secondColumn.sort(function(a,b){return a-b})
 
-  for (let i = 0; i < firstcolumn.length; i++) {
-    totalDifference += Math.abs(firstcolumn[i] - secondColumn[i]);
+  
+
+return [firstcolumn, secondColumn];
 }
 
-return totalDifference;
+function sumdifferences(input) {
+  let totalDifference = 0
+  let leftColumn = input[0]
+  let rightColumn = input[1]
+  for (let i = 0; i < leftColumn.length; i++) {
+    totalDifference += Math.abs(leftColumn[i] - rightColumn[i]);
+  }
+
+  return totalDifference
 }
 
-console.log(split(inputdata));
+function countOccurrences(input) {
+  let leftColumn = input[0]
+  let rightColumn = input[1]
+  const counts = {};
+
+  for (const num of leftColumn) {
+      if (counts[num] !== undefined) {
+          counts[num] += rightColumn.filter(x => x === num).length;
+      } else {
+          counts[num] = rightColumn.filter(x => x === num).length;
+      }
+  }
+
+  let totalSum = 0
+
+  for (const property in counts) {
+      totalSum += property * counts[property]
+  }
+
+  // const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
+
+  return totalSum
+  
+}
+
+
+
+console.log(countOccurrences(split(inputdata)))
